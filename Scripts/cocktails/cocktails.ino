@@ -46,23 +46,7 @@ void loop() {
  }
 
 
- //We check that the number of the cocktail is valid (and it should be if the app
- //is coded properly (haha, what a joke))
- 
- if (0 < state && state <= NUMBER_COCKTAILS) { 
-   
-   //This is where we do stuff for the cocktail, the variable "state" represents 
-   //the number of the cocktail starting from 1.
-
-   //For the example, we turn on the led with the corresponding color
-   //of the cocktail.
-   digitalWrite(GREEN_LED - 1 + state, HIGH);
-   digitalWrite(CONTROL_LED, LOW);
-   delay(1000);
-   //DON'T REMOVE UNLESS YOU DONT WANT AN ACTION AFTER AN ORDER.
-   flag = 1;
- }
-
+ //127 is the beginning of the order
  else if (state == 127 ){
   while(state != 0 && Serial.available() > 0){
    state = Serial.read();
@@ -75,6 +59,7 @@ void loop() {
    flag = 1;
  }
 
+ //Purge code
  else if (state == 'P') {
    for(int i = 0; i < 4; i++){
      digitalWrite(GREEN_LED + i, HIGH);
