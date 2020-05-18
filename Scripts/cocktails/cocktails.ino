@@ -65,11 +65,12 @@ void loop() {
 
  else if (state == 127 ){
   while(state != 0 && Serial.available() > 0){
+   state = Serial.read();
    for(int i = 0; i < 4; i++){
      digitalWrite(GREEN_LED + i, (state - 'a' == i ? LOW : HIGH));
    }
    delay(750);
-   state = Serial.read();
+   
   } 
    flag = 1;
  }
