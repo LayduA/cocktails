@@ -63,7 +63,7 @@ void loop() {
    flag = 1;
  }
 
- else if (state >= 'a' && state <= 'd' ){
+ else if (state == 127 ){
   while(state != 0 && Serial.available() > 0){
    for(int i = 0; i < 4; i++){
      digitalWrite(GREEN_LED + i, (state - 'a' == i ? LOW : HIGH));
