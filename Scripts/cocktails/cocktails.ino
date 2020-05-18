@@ -34,7 +34,7 @@ void loop() {
    //What to do when idle (for example, wait).
    
    digitalWrite(CONTROL_LED, HIGH);
-   delay(2000);
+   delay(1000);
  }
 
 
@@ -58,8 +58,36 @@ void loop() {
    //of the cocktail.
    digitalWrite(GREEN_LED - 1 + state, HIGH);
    digitalWrite(CONTROL_LED, LOW);
-   
+   delay(1000);
    //DON'T REMOVE UNLESS YOU DONT WANT AN ACTION AFTER AN ORDER.
+   flag = 1;
+ }
+
+ else if (state >= 'a' && state <= 'd' ){
+  while(state != 0 && Serial.available() > 0){
+   for(int i = 0; i < 4; i++){
+     digitalWrite(GREEN_LED + i, (state - 'a' == i ? LOW : HIGH));
+   }
+   delay(750);
+   state = Serial.read();
+  } 
+   flag = 1;
+ }
+
+ else if (state == 'P') {
+   for(int i = 0; i < 4; i++){
+     digitalWrite(GREEN_LED + i, HIGH);
+   }
+   delay(750);
+   for(int i = 0; i < 4; i++){
+     digitalWrite(GREEN_LED + i, LOW);
+   }
+   delay(750);
+   for(int i = 0; i < 4; i++){
+     digitalWrite(GREEN_LED + i, HIGH);
+   }
+   delay(750);
+
    flag = 1;
  }
 
@@ -68,9 +96,26 @@ void loop() {
  if(flag == 1){
    //Optional instructions at the end of any order (play a sound or whatever)
 
-   //For the example, we stay 2s with the LED on, then turn it off.
-   delay(2000);
-   digitalWrite(GREEN_LED - 1 + state, LOW);
+   //For example, a little animation with the lights.
+
+   
+   for(int i = 0; i < 4; i++){
+       digitalWrite(GREEN_LED + i, LOW);
+   }
+   digitalWrite(GREEN_LED, HIGH);
+   delay(100);
+   for(int i = 1; i < 4; i++){
+       digitalWrite(GREEN_LED + i - 1 , LOW);
+       digitalWrite(GREEN_LED + i, HIGH);
+       delay(100);
+   }
+   for(int i = 2; i >= 0; i--){
+       digitalWrite(GREEN_LED + i + 1, LOW);
+       digitalWrite(GREEN_LED + i, HIGH);
+       delay(100);
+   }
+   digitalWrite(GREEN_LED, LOW);
+   
    delay(500);
    
    //DON'T REMOVE UNLESS YOU DONT WANT TO GO BACK TO IDLE
